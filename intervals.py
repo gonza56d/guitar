@@ -22,18 +22,17 @@ class IntervalsHelper:
         self._reset()
 
     def _reset(self):
-        self._current_ns = self._notes.copy()
-        self._current_is = self._intervals.copy()
+        self._current = []
+        for n in self._notes:
+            for i in self._intervals:
+                self._current.append(f' * | {n} {i}')
 
     def pick_random(self) -> str:
-        if len(self._current_ns) == 0 or len(self._current_is) == 0:
+        if not self._current:
             self._reset()
 
-        n_len = len(self._current_ns)
-        i_len = len(self._current_is)
-        note = self._current_ns.pop(randint(0, n_len - 1))
-        interval = self._current_is.pop(randint(0, i_len - 1))
-        return f' * | {note} {interval}'
+        length = len(self._current)
+        return self._current.pop(randint(0, length - 1))
 
 
 if __name__ == '__main__':
