@@ -3,26 +3,37 @@ from random import randint
 from sys import argv
 from time import sleep
 
-notes = ['C', 'G', 'D', 'A', 'B']
-intervals = [
-    '1ra',
-    '2da menor',
-    '2da mayor',
-    '3ra menor',
-    '3ra mayor',
-    '4ta justa',
-    '4ta aumentada',
-    '5ta disminuida',
-    '5ta justa'
-]
 
+class IntervalsHelper:
 
-def pick_random():
-    n_len = len(notes)
-    i_len = len(intervals)
-    note = notes[randint(0, n_len - 1)]
-    interval = intervals[randint(0, i_len - 1)]
-    return f' * | {note} {interval}'
+    def __init__(self):
+        self._notes = ['Do', 'Sol', 'Re', 'La', 'Si']
+        self._intervals = [
+            '1ra',
+            '2da menor',
+            '2da mayor',
+            '3ra menor',
+            '3ra mayor',
+            '4ta justa',
+            '4ta aumentada',
+            '5ta disminuida',
+            '5ta justa'
+        ]
+        self._reset()
+
+    def _reset(self):
+        self._current_ns = self._notes.copy()
+        self._current_is = self._intervals.copy()
+
+    def pick_random(self) -> str:
+        if len(self._current_ns) == 0 or len(self._current_is) == 0:
+            self._reset()
+
+        n_len = len(self._current_ns)
+        i_len = len(self._current_is)
+        note = self._current_ns.pop(randint(0, n_len - 1))
+        interval = self._current_is.pop(randint(0, i_len - 1))
+        return f' * | {note} {interval}'
 
 
 if __name__ == '__main__':
@@ -31,7 +42,9 @@ if __name__ == '__main__':
     except KeyError:
         print('No time interval (int) provided in command line.')
         raise SystemExit()
+
+    practice = IntervalsHelper()
     while True:
         system('clear')
-        print(pick_random())
+        print(practice.pick_random())
         sleep(interval)
