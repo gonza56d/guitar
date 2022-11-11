@@ -29,6 +29,8 @@ class IntervalsHelper:
 
     def pick_random(self) -> str:
         if not self._current:
+            print('Finished! Resetting...')
+            sleep(3)
             self._reset()
 
         length = len(self._current)
